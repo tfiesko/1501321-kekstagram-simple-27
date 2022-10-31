@@ -28,6 +28,12 @@ const PHOTOS_DESCRIPTION = [
 
 const PHOTO_COUNT = 25;
 
+const MIN_LIKES_COUNT = 15;
+const MAX_LIKES_COUNT = 200;
+const MIN_COMMENT_LENGTH = 15;
+const MAX_COMMENT_LENGTH = 200;
+
+
 const getRandomNumber = (min, max) =>
   Math.floor(Math.random() * Math.abs(max - min) + Math.min(min, max));
 
@@ -35,29 +41,17 @@ const getRandomNumber = (min, max) =>
 const checkStringLength = (checkedString, maxLength) =>
   checkedString.length <= maxLength;
 
-const createIdGenerator = (startNumber, maxNumber = Infinity) =>
-  () => {
-    startNumber++;
-    if (startNumber > maxNumber) {
-      return maxNumber;
-    }
-    return startNumber;
-  };
-
-const itemIdGenerator = createIdGenerator(0);
-const photoIdGenerator = createIdGenerator(0);
-const photoDescriptionIndexGenerator = createIdGenerator(-1, PHOTOS_DESCRIPTION.length - 1);
-
-const getPhotoItem = () =>
-  (
-    {
-      id: itemIdGenerator(),
-      url: `photos/${photoIdGenerator()}.jpg`,
-      description: PHOTOS_DESCRIPTION[photoDescriptionIndexGenerator()],
-      likes: getRandomNumber(15, 200),
-      comments: getRandomNumber(0, 200),
-    }
-  );
-
 const getArrayFromPhotoItems = () =>
-  Array.from({length: PHOTO_COUNT}, getPhotoItem);
+  Array.from({length: PHOTO_COUNT}, (_, index) =>
+    (
+      {
+        id: index + 1,
+        url: `photos/${index + 1}.jpg`,
+        description: PHOTOS_DESCRIPTION[index],
+        likes: getRandomNumber(MIN_LIKES_COUNT, MAX_LIKES_COUNT),
+        comments: getRandomNumber(MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH),
+      }
+    ));
+
+checkStringLength();
+getArrayFromPhotoItems();
