@@ -47,4 +47,4 @@ const getArrayFromPhotoItems = () =>
       }
     ));
 
-getArrayFromPhotoItems();
+export {getArrayFromPhotoItems};
