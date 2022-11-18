@@ -4,8 +4,9 @@ const uploadOverlay = document.querySelector('.img-upload__overlay');
 const closeButton = document.querySelector('.img-upload__cancel');
 
 const onEscapeKeyDown = (evt)=> {
-  evt.preventDefault();
+
   if(isEscapeKeyPress(evt)) {
+    evt.preventDefault();
     closeEditPictureModal();
   }
 };
