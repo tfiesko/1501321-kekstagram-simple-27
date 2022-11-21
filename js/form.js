@@ -10,6 +10,7 @@ const closeButton = document.querySelector('.img-upload__cancel');
 const controlSmaller = document.querySelector('.scale__control--smaller');
 const controlBigger = document.querySelector('.scale__control--bigger');
 const imgEffectsList = document.querySelector('.img-upload__effects');
+const form = document.querySelector('.img-upload__form');
 
 const onEscapeKeyDown = (evt)=> {
 
@@ -50,4 +51,7 @@ fileInput.addEventListener('change', ()=> {
   openEditPictureModal();
 });
 
+// form.addEventListener('submit', (evt)=> {
+//   evt.preventDefault();
 
+// });
