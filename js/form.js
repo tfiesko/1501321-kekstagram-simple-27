@@ -20,7 +20,7 @@ const resetForm = () => {
   resetFilter();
   fileInput.value = '';
   comment.value = '';
-}
+};
 
 const onEscapeKeyDown = (evt)=> {
 
@@ -57,14 +57,14 @@ const openEditPictureModal = () => {
 };
 
 const blockSubmitButton = () => {
- submitButton.disabled = true;
- submitButton.textContent = 'Публикуем...';
-}
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуем...';
+};
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
-}
+};
 
 fileInput.addEventListener('change', ()=> {
   openEditPictureModal();
@@ -72,17 +72,20 @@ fileInput.addEventListener('change', ()=> {
 
 const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt)=> {
-  blockSubmitButton();
-  evt.preventDefault();
-  sendData(
-    ()=> {
-      onSuccess()
-      unblockSubmitButton()
-    },
-    ()=> showAlert('Данные не отправлены:('),
-    new FormData(evt.target)
-  );
-});
-}
+    blockSubmitButton();
+    evt.preventDefault();
+    sendData(
+      ()=> {
+        onSuccess();
+        unblockSubmitButton();
+      },
+      ()=> {
+        showAlert('Данные не отправлены:(');
+        unblockSubmitButton();
+      },
+      new FormData(evt.target)
+    );
+  });
+};
 
 export {setUserFormSubmit, closeEditPictureModal};
