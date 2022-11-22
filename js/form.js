@@ -1,4 +1,5 @@
-import { isEscapeKeyPress, showAlert } from './utils.js';
+import { isEscapeKeyPress} from './utils.js';
+import { showInfoModal } from './info-modal-render.js';
 import { onZoomOutButtonClick } from './photo_scale_changer.js';
 import { onZoomInButtonClick } from './photo_scale_changer.js';
 import { resetScaleValue } from './photo_scale_changer.js';
@@ -14,6 +15,8 @@ const imgEffectsList = document.querySelector('.img-upload__effects');
 const form = document.querySelector('.img-upload__form');
 const comment = form.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
+const successInfoModalTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorInfoModalTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const resetForm = () => {
   resetScaleValue();
@@ -77,10 +80,11 @@ const setUserFormSubmit = (onSuccess) => {
     sendData(
       ()=> {
         onSuccess();
+        showInfoModal(successInfoModalTemplate);
         unblockSubmitButton();
       },
       ()=> {
-        showAlert('Данные не отправлены:(');
+        showInfoModal(errorInfoModalTemplate);
         unblockSubmitButton();
       },
       new FormData(evt.target)
