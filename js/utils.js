@@ -1,12 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
 
-const getRandomNumber = (min, max) =>
-  Math.floor(Math.random() * Math.abs(max - min) + Math.min(min, max));
-
-
-const checkStringLength = (checkedString, maxLength) =>
-  checkedString.length <= maxLength;
-
 const isEscapeKeyPress = (evt) =>
   evt.key === 'Escape';
 
@@ -26,11 +19,11 @@ const showAlert = (message) => {
 
   alertContainer.textContent = message;
 
-  document.body.append(alertContainer);
+  document.body.appendChild(alertContainer);
 
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomNumber ,checkStringLength, isEscapeKeyPress, showAlert};
+export {isEscapeKeyPress, showAlert};

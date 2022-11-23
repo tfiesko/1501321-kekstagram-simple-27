@@ -1,10 +1,12 @@
-import { isEscapeKeyPress, showAlert } from './utils.js';
-import { onZoomOutButtonClick } from './photo_scale_changer.js';
-import { onZoomInButtonClick } from './photo_scale_changer.js';
-import { resetScaleValue } from './photo_scale_changer.js';
-import { resetFilter } from './filter_changer.js';
-import { onEffectsRadioButtonsChange } from './filter_changer.js';
+import { isEscapeKeyPress} from './utils.js';
+import { showInfoModal } from './info-modal-render.js';
+import { onZoomOutButtonClick } from './photo-scale-changer.js';
+import { onZoomInButtonClick } from './photo-scale-changer.js';
+import { resetScaleValue } from './photo-scale-changer.js';
+import { resetFilter } from './filter-changer.js';
+import { onEffectsRadioButtonsChange } from './filter-changer.js';
 import { sendData } from './api.js';
+const EMPTY_VALUE = '';
 const fileInput = document.querySelector('.img-upload__input');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const closeButton = document.querySelector('.img-upload__cancel');
@@ -14,15 +16,17 @@ const imgEffectsList = document.querySelector('.img-upload__effects');
 const form = document.querySelector('.img-upload__form');
 const comment = form.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
+const successInfoModalTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorInfoModalTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const resetForm = () => {
   resetScaleValue();
   resetFilter();
-  fileInput.value = '';
-  comment.value = '';
-}
+  fileInput.value = EMPTY_VALUE;
+  comment.value = EMPTY_VALUE;
+};
 
-const onEscapeKeyDown = (evt)=> {
+const onKeyDownEscape = (evt)=> {
 
   if(isEscapeKeyPress(evt)) {
     evt.preventDefault();
@@ -30,15 +34,15 @@ const onEscapeKeyDown = (evt)=> {
   }
 };
 
-const onClickCloseButton = () => {
+const onCloseButtonClick = () => {
   closeEditPictureModal();
 };
 
 const closeEditPictureModal = () => {
   document.body.classList.remove('modal-open');
   uploadOverlay.classList.add('hidden');
-  document.removeEventListener('keydown', onEscapeKeyDown);
-  closeButton.removeEventListener('click', onClickCloseButton);
+  document.removeEventListener('keydown', onKeyDownEscape);
+  closeButton.removeEventListener('click', onCloseButtonClick);
   controlSmaller.removeEventListener('click', onZoomOutButtonClick);
   controlBigger.removeEventListener('click', onZoomInButtonClick);
   imgEffectsList.removeEventListener('change', onEffectsRadioButtonsChange);
@@ -48,8 +52,8 @@ const closeEditPictureModal = () => {
 const openEditPictureModal = () => {
   document.body.classList.add('modal-open');
   uploadOverlay.classList.remove('hidden');
-  closeButton.addEventListener('click', onClickCloseButton);
-  document.addEventListener('keydown', onEscapeKeyDown);
+  closeButton.addEventListener('click', onCloseButtonClick);
+  document.addEventListener('keydown', onKeyDownEscape);
   controlSmaller.addEventListener('click', onZoomOutButtonClick);
   controlBigger.addEventListener('click', onZoomInButtonClick);
   imgEffectsList.addEventListener('change', onEffectsRadioButtonsChange);
@@ -57,14 +61,14 @@ const openEditPictureModal = () => {
 };
 
 const blockSubmitButton = () => {
- submitButton.disabled = true;
- submitButton.textContent = 'Публикуем...';
-}
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуем...';
+};
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
-}
+};
 
 fileInput.addEventListener('change', ()=> {
   openEditPictureModal();
@@ -72,17 +76,21 @@ fileInput.addEventListener('change', ()=> {
 
 const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt)=> {
-  blockSubmitButton();
-  evt.preventDefault();
-  sendData(
-    ()=> {
-      onSuccess()
-      unblockSubmitButton()
-    },
-    ()=> showAlert('Данные не отправлены:('),
-    new FormData(evt.target)
-  );
-});
-}
+    blockSubmitButton();
+    evt.preventDefault();
+    sendData(
+      ()=> {
+        onSuccess();
+        showInfoModal(successInfoModalTemplate);
+        unblockSubmitButton();
+      },
+      ()=> {
+        showInfoModal(errorInfoModalTemplate);
+        unblockSubmitButton();
+      },
+      new FormData(evt.target)
+    );
+  });
+};
 
 export {setUserFormSubmit, closeEditPictureModal};
