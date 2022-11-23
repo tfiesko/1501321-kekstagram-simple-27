@@ -1,11 +1,12 @@
 import { isEscapeKeyPress} from './utils.js';
 import { showInfoModal } from './info-modal-render.js';
-import { onZoomOutButtonClick } from './photo_scale_changer.js';
-import { onZoomInButtonClick } from './photo_scale_changer.js';
-import { resetScaleValue } from './photo_scale_changer.js';
-import { resetFilter } from './filter_changer.js';
-import { onEffectsRadioButtonsChange } from './filter_changer.js';
+import { onZoomOutButtonClick } from './photo-scale-changer.js';
+import { onZoomInButtonClick } from './photo-scale-changer.js';
+import { resetScaleValue } from './photo-scale-changer.js';
+import { resetFilter } from './filter-changer.js';
+import { onEffectsRadioButtonsChange } from './filter-changer.js';
 import { sendData } from './api.js';
+const EMPTY_VALUE = '';
 const fileInput = document.querySelector('.img-upload__input');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const closeButton = document.querySelector('.img-upload__cancel');
@@ -21,11 +22,11 @@ const errorInfoModalTemplate = document.querySelector('#error').content.querySel
 const resetForm = () => {
   resetScaleValue();
   resetFilter();
-  fileInput.value = '';
-  comment.value = '';
+  fileInput.value = EMPTY_VALUE;
+  comment.value = EMPTY_VALUE;
 };
 
-const onEscapeKeyDown = (evt)=> {
+const onKeyDownEscape = (evt)=> {
 
   if(isEscapeKeyPress(evt)) {
     evt.preventDefault();
@@ -33,15 +34,15 @@ const onEscapeKeyDown = (evt)=> {
   }
 };
 
-const onClickCloseButton = () => {
+const onCloseButtonClick = () => {
   closeEditPictureModal();
 };
 
 const closeEditPictureModal = () => {
   document.body.classList.remove('modal-open');
   uploadOverlay.classList.add('hidden');
-  document.removeEventListener('keydown', onEscapeKeyDown);
-  closeButton.removeEventListener('click', onClickCloseButton);
+  document.removeEventListener('keydown', onKeyDownEscape);
+  closeButton.removeEventListener('click', onCloseButtonClick);
   controlSmaller.removeEventListener('click', onZoomOutButtonClick);
   controlBigger.removeEventListener('click', onZoomInButtonClick);
   imgEffectsList.removeEventListener('change', onEffectsRadioButtonsChange);
@@ -51,8 +52,8 @@ const closeEditPictureModal = () => {
 const openEditPictureModal = () => {
   document.body.classList.add('modal-open');
   uploadOverlay.classList.remove('hidden');
-  closeButton.addEventListener('click', onClickCloseButton);
-  document.addEventListener('keydown', onEscapeKeyDown);
+  closeButton.addEventListener('click', onCloseButtonClick);
+  document.addEventListener('keydown', onKeyDownEscape);
   controlSmaller.addEventListener('click', onZoomOutButtonClick);
   controlBigger.addEventListener('click', onZoomInButtonClick);
   imgEffectsList.addEventListener('change', onEffectsRadioButtonsChange);
