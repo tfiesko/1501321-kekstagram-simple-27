@@ -26,4 +26,13 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {isEscapeKeyPress, showAlert};
+const validFileType = (file, allowedFileTypes) => {
+  for(let i = 0; i < allowedFileTypes.length; i++) {
+    if(file.type === allowedFileTypes[i]) {
+      return true;
+    }
+  }
+  return false;
+};
+
+export {isEscapeKeyPress, showAlert, validFileType};

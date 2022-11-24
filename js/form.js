@@ -6,6 +6,14 @@ import { resetScaleValue } from './photo-scale-changer.js';
 import { resetFilter } from './filter-changer.js';
 import { onEffectsRadioButtonsChange } from './filter-changer.js';
 import { sendData } from './api.js';
+import { validFileType } from './utils.js';
+import { showAlert } from './utils.js';
+const ALLOWED_FILE_TYPES = [
+  'image/jpeg',
+  'image/pjpeg',
+  'image/png'
+];
+const TYPE_ERROR_MESSAGE = 'Недопустимый тип файла!';
 const EMPTY_VALUE = '';
 const fileInput = document.querySelector('.img-upload__input');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -71,7 +79,12 @@ const unblockSubmitButton = () => {
 };
 
 fileInput.addEventListener('change', ()=> {
-  openEditPictureModal();
+  if(!validFileType(fileInput.files[0], ALLOWED_FILE_TYPES)){
+    showAlert(TYPE_ERROR_MESSAGE);
+  }
+  else {
+    openEditPictureModal();
+  }
 });
 
 const setUserFormSubmit = (onSuccess) => {
