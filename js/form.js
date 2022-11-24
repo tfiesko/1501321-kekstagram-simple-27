@@ -46,7 +46,7 @@ const onCloseButtonClick = () => {
   closeEditPictureModal();
 };
 
-const closeEditPictureModal = () => {
+function closeEditPictureModal() {
   document.body.classList.remove('modal-open');
   uploadOverlay.classList.add('hidden');
   document.removeEventListener('keydown', onKeyDownEscape);
@@ -55,7 +55,7 @@ const closeEditPictureModal = () => {
   controlBigger.removeEventListener('click', onZoomInButtonClick);
   imgEffectsList.removeEventListener('change', onEffectsRadioButtonsChange);
   resetForm();
-};
+}
 
 const openEditPictureModal = () => {
   document.body.classList.add('modal-open');

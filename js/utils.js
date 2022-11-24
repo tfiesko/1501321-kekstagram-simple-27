@@ -13,6 +13,7 @@ const showAlert = (message) => {
   alertContainer.style.bottom = '30%';
   alertContainer.style.padding = '100px 3px';
   alertContainer.style.fontSize = '50px';
+  alertContainer.style.lineHeight = '50px';
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'blue';
   alertContainer.style.border = '3px solid white';
