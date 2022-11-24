@@ -1,27 +1,28 @@
 import { showAlert } from './utils.js';
-const getDataUrl = 'https://27.javascript.pages.academy/kekstagram-simple/data';
-const sendDataUrl = 'https://27.javascript.pages.academy/kekstagram-simple';
+const GET_DATA_URL = 'https://27.javascript.pages.academy/kekstagram-simple/data';
+const SEND_DATA_URL = 'https://27.javascript.pages.academy/kekstagram-simple';
+const GET_DATA_ERROR_MESSAGE = 'Проблема с загрузкой данных :(';
 
 const getData = (onSuccess) => {
-  fetch(getDataUrl)
+  fetch(GET_DATA_URL)
     .then((response) => {
       if(response.ok){
         return response.json();
       }
       else {
-        showAlert('Проблема с загрузкой данных :(');
+        showAlert(GET_DATA_ERROR_MESSAGE);
       }})
     .then((thumbnails) => {
       onSuccess(thumbnails);
     }).catch(()=>{
-      showAlert('Проблема с загрузкой данных :(');
+      showAlert(GET_DATA_ERROR_MESSAGE);
     });
 };
 
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    sendDataUrl,
+    SEND_DATA_URL,
     {
       method: 'POST',
       body,

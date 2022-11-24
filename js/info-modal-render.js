@@ -7,18 +7,18 @@ const closeInfoModal = () => {
   document.body.removeEventListener('click', onOverlayClick);
 };
 
-const onOverlayClick = (evt) => {
+function onOverlayClick(evt) {
   if(evt.target.classList.contains('success') || evt.target.classList.contains('error')) {
     closeInfoModal();
   }
-};
+}
 
-const onKeyDownEscape = (evt) => {
+function onKeyDownEscape(evt) {
   if(isEscapeKeyPress(evt)) {
     evt.preventDefault();
     closeInfoModal();
   }
-};
+}
 
 const showInfoModal = (templateContent) => {
   const cloneTemplate = templateContent.cloneNode(true);

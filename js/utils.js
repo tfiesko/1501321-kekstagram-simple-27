@@ -13,6 +13,7 @@ const showAlert = (message) => {
   alertContainer.style.bottom = '30%';
   alertContainer.style.padding = '100px 3px';
   alertContainer.style.fontSize = '50px';
+  alertContainer.style.lineHeight = '50px';
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'blue';
   alertContainer.style.border = '3px solid white';
@@ -26,4 +27,13 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {isEscapeKeyPress, showAlert};
+const validFileType = (file, allowedFileTypes) => {
+  for(let i = 0; i < allowedFileTypes.length; i++) {
+    if(file.type === allowedFileTypes[i]) {
+      return true;
+    }
+  }
+  return false;
+};
+
+export {isEscapeKeyPress, showAlert, validFileType};
