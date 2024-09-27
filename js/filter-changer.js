@@ -72,6 +72,7 @@ export const resetFilter = () => {
   previewPicture.classList.add(DEFAULT_FILTER_CLASS);
   currentFilterClassModifier = 'original';
   previewPicture.style = 'filter: none';
-  sliderElement.noUiSlider.destroy();
+  if(sliderElement.noUiSlider)
+  {sliderElement.noUiSlider.destroy();}
   sliderContainer.classList.add('hidden');
 };
